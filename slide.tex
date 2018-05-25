@@ -17,6 +17,9 @@
 \setbeamertemplate{footline}[frame number]
 
 \setbeamerfont{title}{size = \Huge}
+\setbeamerfont{subtitle}{size = \huge}
+\setbeamerfont{date}{size = \huge}
+\setbeamerfont{author}{size = \huge}
 \setbeamerfont{frametitle}{size = \huge}
 \setbeamerfont{normal text}{size = \Large}
 \setbeamerfont{block body}{size = \Large}
@@ -134,7 +137,7 @@ curl -X POST --data-urlencode
   \begin{frame}{Googleスプレッドシートをオリジナル時間割にする}
     \begin{block}{スプレッドシートをコピー}
       \begin{enumerate}\setlength{\itemsep}{15pt}
-        \item \url{hogehoge.com}からスプレッドシートにアクセス
+        \item \url{https://goo.gl/ec1Gmk}からスプレッドシートにアクセス
         \item 「ファイル」 $\rightarrow$ 「コピーを作成」
         \item 自分のディレクトリに保存
         \item コピー先で時間割カスタマイズ
@@ -169,7 +172,7 @@ function helloWorld(){
     \end{exampleblock}
     \begin{block}{スクリプト実行}
       \begin{enumerate}
-        \item 「実行」$\rightarrow$「関数を実行」$\rightarrow$ ``myFunction''
+        \item 「実行」$\rightarrow$「関数を実行」$\rightarrow$ ``helloworld''
         \item ctrl + Enterでログ確認
       \end{enumerate}
     \end{block}
@@ -182,7 +185,7 @@ function helloWorld(){
   Logger.log("Hello World!!");
 }
 function getSheetInfos(){
-  var values = SpreadsheetApp.getActiveSheet().getRange("A1").getValues();
+  const values = SpreadsheetApp.getActiveSheet().getRange("A1").getValues();
   return values;
 }
       \end{GAS*}
@@ -193,8 +196,8 @@ function getSheetInfos(){
     \begin{exampleblock}{GASからPOSTリクエストを送る}
       \begin{GAS*}{fontsize=\small}
 function postSlack(text){
-  var url = "<your Webhook URL>";
-  var options = {
+  const url = "<your Webhook URL>";
+  const options = {
     "method" : "POST",
     "headers": {"Content-type": "application/json"},
     "payload" : JSON.stringify({"text": text})
@@ -244,8 +247,8 @@ function test(){
     \begin{exampleblock}{月曜日の時間割を返す関数}
       \begin{GAS}
 function notifyMondaySchdule(){
-  var classes = getSheetInfos("B2:B11");
-  var todayScheduleStr = listToStr(classes);
+  const classes = getSheetInfos("B2:B11");
+  const todayScheduleStr = listToStr(classes);
   postSlack(todayScheduleStr);
 }
       \end{GAS}
