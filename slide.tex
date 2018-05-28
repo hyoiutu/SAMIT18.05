@@ -1,5 +1,5 @@
 %\documentclass[dvipdfmx,xcolor={svgnames},17pt]{beamer}
-\documentclass[dvipdfmx,xcolor={svgnames}]{beamer}
+\documentclass[dvipdfmx,xcolor={svgnames},aspectratio=169]{beamer}
 
 \usepackage{pxrubrica}
 \usepackage{color}
@@ -98,11 +98,15 @@
     \end{figure}
   \end{frame}
   \begin{frame}
-    \includegraphics[width=\hsize]{LINE_image_figure.pdf}
-    \pause\huge 一つのアカウントが \\ 複数のグループに所属
+    \begin{figure}\centering
+      \includegraphics[scale=0.6]{LINE_image_figure.pdf}
+    \end{figure}
+    \pause\huge 一つのアカウントが複数のグループに所属
   \end{frame}
   \begin{frame}
-    \includegraphics[width=\hsize]{Slack_image_figure.pdf}
+    \begin{figure}\centering
+      \includegraphics[scale=0.6]{Slack_image_figure.pdf}
+    \end{figure}
     \pause\huge グループ毎にアカウントを持つ
   \end{frame}
   \begin{frame}{ワークスペース作成}
@@ -126,8 +130,8 @@
   \begin{frame}[fragile]{Slackにメッセージを送ってみる}
     \begin{exampleblock}{コマンドラインからメッセージを送信}
       \begin{GAS*}{fontsize=\Large}
-curl -X POST --data-urlencode
-"payload={\"text\": \"Hello Slack\"}"
+curl -X POST -d
+'payload={"text": "Hello Slack"}'
 <your Webhook URL>
 \end{GAS*}
     \end{exampleblock}
@@ -194,7 +198,7 @@ function getSheetInfos(){
   \end{frame}
   \begin{frame}[fragile]{GASからSlackへメッセージを送る}
     \begin{exampleblock}{GASからPOSTリクエストを送る}
-      \begin{GAS*}{fontsize=\small}
+      \begin{GAS*}{fontsize=\scriptsize}
 function postSlack(text){
   const url = "<your Webhook URL>";
   const options = {
@@ -254,11 +258,11 @@ function notifyMondaySchdule(){
       \end{GAS}
     \end{exampleblock}
     \begin{exampleblock}{リストを文字列にする関数}
-      \begin{GAS*}{fontsize=\small}
+      \begin{GAS*}{fontsize=\scriptsize}
 function listToStr(strList){
-  const strs = strList.reduce(
-    function(previousValue, currentValue){
-    return previousValue + "\n" + currentValue;
+  const strs = "1" + strList.reduce(
+    function(previousValue, currentValue, index){
+      return previousValue + "\n" + String(index+1) + currentValue;
   });
   return strs;
 }
@@ -270,18 +274,17 @@ function listToStr(strList){
       \begin{GAS*}{fontsize=\scriptsize}
 function notifyTodaySchedule(){
   const weekDayList = {
-    '日':'B','月':'B','火':'C','水':'D','木':'E','金':'F','土':'B'
+    "日":"B2:B11","月":"B2:B11","火":"C2:C11","水":"D2:D11","木":"E2:E11","金":"F2:F11","土":"B2:B11",
   };
   const today = getDay();
-  const rowNumber = weekDayList[today];
-  const classes = getSheetInfos(rowNumber+"2:"+rowNumber+"11");
-  const todayScheduleStr = listToStr(classes);
-  postSlack(todayScheduleStr);
+  const range = weekDayList[today];
+  const classes = getSheetInfos(range);
+  postSlack(listToStr(classes));
 }
       \end{GAS*}
     \end{exampleblock}
     \begin{exampleblock}{今日の曜日を返す関数}
-      \begin{GAS*}{fontsize=\small}
+      \begin{GAS*}{fontsize=\scriptsize}
 function getDay(){
   const weekDayList = ["日", "月", "火", "水", "木", "金", "土"];
   const dateObj = new Date() ;
